@@ -2,7 +2,7 @@ require "middleman-core"
 require "nokogiri"
 
 class Widont < ::Middleman::Extension
-  VERSION = "1.0.2"
+  VERSION = "1.0.3"
 
   option :nbsp, "\u00A0", "String to use between the last two words"
   option :tags, %w[p h1 h2 h3 h4 h5 h6], "Tags to apply widont"
@@ -31,8 +31,10 @@ class Widont < ::Middleman::Extension
          html_doc.css(@tags.join(", ")).each do |tag|
            content = tag.inner_html.strip
            index = content.rindex(/\s/)
-           content[index] = @nbsp
-           tag.inner_html = content
+           if index
+             content[index] = @nbsp
+             tag.inner_html = content
+           end
         end
         response = html_doc.to_html
       end
