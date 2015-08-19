@@ -9,7 +9,6 @@ Inman's][2] old Wordpress plugin from yesteryear.
 
 Add `gem "middleman-widont"` to your `Gemfile` and run `bundle install`
 
-
 ## Configuration
 
 ```
@@ -18,4 +17,3 @@ activate :widont
 
 [1]: http://middlemanapp.com/
 [2]: http://www.shauninman.com/archive/2006/08/22/widont_wordpress_plugin
-
