@@ -17,7 +17,7 @@ activate :widont
 
 The tags which to apply Widon't to can be specified:
 ```ruby
-activate :widont, tags: %w[p li]
+activate :widont, tags: ["p", "li"]
 ```
 
 By default, Widon't places the Unicode non-breaking space character
