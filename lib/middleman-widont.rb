@@ -2,7 +2,7 @@ require "middleman-core"
 require "nokogiri"
 
 class Widont < ::Middleman::Extension
-  VERSION = "1.0.3"
+  VERSION = "1.0.4"
 
   option :nbsp, "\u00A0", "String to use between the last two words"
   option :tags, %w[p h1 h2 h3 h4 h5 h6], "Tags to apply widont"
@@ -23,20 +23,20 @@ class Widont < ::Middleman::Extension
 
       type = headers.fetch("Content-Type", "application/octet-stream").split(";").first
       path = env["PATH_INFO"]
-      
-      if type == "text/html"
-         html = ::Middleman::Util.extract_response_text(response)
-         html_doc = Nokogiri::HTML(html)
+      if %w[text/html application/xhtml+xml].include?(type)
+        use_xml = type == "application/xhtml+xml"
+        html = ::Middleman::Util.extract_response_text(response)
+        html_doc = use_xml ? Nokogiri::XML(html) : Nokogiri::HTML(html)
 
-         html_doc.css(@tags.join(", ")).each do |tag|
-           content = tag.inner_html.strip
-           index = content.rindex(/\s/)
-           if index
-             content[index] = @nbsp
-             tag.inner_html = content
-           end
+        html_doc.css(@tags.join(", ")).each do |tag|
+          content = tag.inner_html.strip
+          index = content.rindex(/\s/)
+          if index
+            content[index] = @nbsp
+            tag.inner_html = content
+          end
         end
-        response = html_doc.to_html
+        response = use_xml ? html_doc.to_xml : html_doc.to_html
       end
 
       if response.is_a?(String)
