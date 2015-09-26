@@ -2,10 +2,10 @@ require "middleman-core"
 require "nokogiri"
 
 class Widont < ::Middleman::Extension
-  VERSION = "1.0.4"
+  VERSION = "1.0.5"
 
   option :nbsp, "\u00A0", "String to use between the last two words"
-  option :tags, %w[p h1 h2 h3 h4 h5 h6], "Tags to apply widont"
+  option :tags, %w[p li h1 h2 h3 h4 h5 h6], "Tags to apply widont"
 
   def after_configuration
     app.use Rack, options
